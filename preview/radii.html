@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Radii & Borders</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 22px 32px; background: var(--paper); display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: end; }
+  .col { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .box { width: 84px; height: 56px; background: var(--paper-2); border: 1px solid var(--ink); }
+  .name { font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+  .desc { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); }
+</style></head>
+<body>
+  <div class="col"><div class="box" style="border-radius:0"></div><span class="name">--r-0 · 0px</span><span class="desc">cards, panels, default</span></div>
+  <div class="col"><div class="box" style="border-radius:2px"></div><span class="name">--r-1 · 2px</span><span class="desc">inputs only</span></div>
+  <div class="col"><div class="box" style="border-radius:3px"></div><span class="name">kbd · 3px</span><span class="desc">keycaps</span></div>
+  <div class="col"><div class="box" style="border-radius:999px; width:84px; height:24px;"></div><span class="name">--r-pill</span><span class="desc">running-timer chip only</span></div>
+</body></html>

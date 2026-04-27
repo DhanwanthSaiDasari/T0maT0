@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Elevation — none</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 22px 32px; background: var(--paper); display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 24px; align-items: center; }
+  .ex { display: flex; flex-direction: column; gap: 10px; }
+  .card { background: var(--paper); border: 1px solid var(--ink); padding: 18px 20px; }
+  .card .label { font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+  .card .v { font-family: var(--font-mono); font-size: 22px; font-weight: 500; letter-spacing: -0.02em; margin-top: 4px; }
+  .name { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .note { font-family: var(--font-serif); font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+  .strike { text-decoration: line-through; color: var(--ink-3); }
+</style></head>
+<body>
+  <div class="ex">
+    <div class="card"><span class="label">today</span><div class="v">3 / 8</div></div>
+    <span class="name">card · 1px ink</span>
+  </div>
+  <div class="ex">
+    <div class="card" style="border-color: var(--rule-soft);"><span class="label">yesterday</span><div class="v">5 / 8</div></div>
+    <span class="name">card · soft rule</span>
+  </div>
+  <p class="note">No <span class="strike">box-shadow</span>. Hairlines replace elevation entirely. Depth is a hierarchy of border weight, not light.</p>
+</body></html>

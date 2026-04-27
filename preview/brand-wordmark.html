@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Wordmark & Logo</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 22px 32px; background: var(--paper); display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 24px; align-items: center; }
+  .wm { font-family: var(--font-mono); font-weight: 700; font-size: 36px; letter-spacing: -0.02em; color: var(--ink); display: inline-flex; align-items: baseline; gap: 4px; }
+  .wm .sq { display: inline-block; width: 6px; height: 6px; background: var(--tomato); margin-bottom: 2px; }
+  .mark { width: 56px; height: 56px; background: var(--paper); border: 2px solid var(--ink); display: inline-flex; align-items: flex-end; justify-content: flex-end; }
+  .mark .sq { width: 8px; height: 8px; background: var(--tomato); margin: 0 4px 4px 0; }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 8px; }
+  .col { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+</style></head>
+<body>
+  <div class="col"><div class="wm">tomato<span class="sq"></span></div><span class="label">wordmark · jb mono 700</span></div>
+  <div class="col"><div class="mark"><span class="sq"></span></div><span class="label">app icon</span></div>
+  <div class="col" style="background:var(--ink); padding:18px; align-items:center;"><div class="wm" style="color:var(--paper);">tomato<span class="sq"></span></div><span class="label" style="color:var(--dark-fg-3);">on dark</span></div>
+</body></html>

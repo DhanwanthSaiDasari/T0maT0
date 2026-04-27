@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Color — Dark / Terminal</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 24px 32px; background: var(--dark-bg); display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .sw { display: flex; flex-direction: column; gap: 6px; }
+  .chip { width: 100%; aspect-ratio: 1.4 / 1; border: 1px solid var(--dark-rule); }
+  .name { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--dark-fg); }
+  .hex  { font-family: var(--font-mono); font-size: 10px; color: var(--dark-fg-3); }
+</style></head>
+<body>
+  <div class="sw"><div class="chip" style="background:#1A1714"></div><span class="name">dark-bg</span><span class="hex">#1A1714</span></div>
+  <div class="sw"><div class="chip" style="background:#242019"></div><span class="name">dark-bg-2</span><span class="hex">#242019</span></div>
+  <div class="sw"><div class="chip" style="background:#3A332C"></div><span class="name">dark-rule</span><span class="hex">#3A332C</span></div>
+  <div class="sw"><div class="chip" style="background:#B8AE99"></div><span class="name">dark-fg-2</span><span class="hex">#B8AE99</span></div>
+  <div class="sw"><div class="chip" style="background:#F5F1E8"></div><span class="name">dark-fg</span><span class="hex">#F5F1E8</span></div>
+</body></html>

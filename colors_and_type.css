@@ -1,0 +1,192 @@
+/* ============================================================
+   TOMATO — Foundations
+   Colors + Type tokens. Import this in every preview/UI kit page.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap');
+
+:root {
+  /* ---------- Color: Paper & Ink ---------- */
+  --paper:        #F5F1E8;   /* primary background — warm off-white, like newsprint */
+  --paper-2:      #ECE6D6;   /* recessed surface, panels */
+  --paper-3:      #E0D8C2;   /* hover/pressed on paper */
+  --ink:          #1A1714;   /* primary text — near-black with warmth */
+  --ink-2:        #3A332C;   /* secondary text */
+  --ink-3:        #6B6256;   /* tertiary / hints / disabled */
+  --rule:         #1A1714;   /* hairline borders, same as ink */
+  --rule-soft:    #C8BFA8;   /* secondary divider */
+
+  /* ---------- Color: Accent ---------- */
+  --tomato:       #D7301F;   /* the one accent — running timer, focus indicator */
+  --tomato-deep:  #A32212;   /* pressed state */
+  --tomato-tint:  #F5C9C2;   /* tinted bg, very rarely */
+
+  /* ---------- Color: Semantic (sparing use) ---------- */
+  --leaf:         #2F6B3A;   /* completed / success — only for completed state */
+  --char:         #2A2520;   /* "burnt", used for break mode bg */
+
+  /* ---------- Dark mode (terminal) ---------- */
+  --dark-bg:      #1A1714;
+  --dark-bg-2:    #242019;
+  --dark-fg:      #F5F1E8;
+  --dark-fg-2:    #B8AE99;
+  --dark-fg-3:    #6B6256;
+  --dark-rule:    #3A332C;
+
+  /* ---------- Type families ---------- */
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-serif:   'Newsreader', 'Iowan Old Style', Georgia, serif;
+
+  /* ---------- Spacing (8px grid w/ 4px half-step) ---------- */
+  --s-0: 0;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+
+  /* ---------- Radii — sharp by default ---------- */
+  --r-0: 0;        /* default — most things */
+  --r-1: 2px;      /* faintly soft (inputs only) */
+  --r-pill: 999px; /* keycap chips only */
+
+  /* ---------- Borders ---------- */
+  --bw: 1px;
+  --bw-2: 2px;     /* the active/focused state */
+
+  /* ---------- Motion ---------- */
+  --ease:    cubic-bezier(0.2, 0, 0, 1);
+  --dur-1:   80ms;   /* button press */
+  --dur-2:   160ms;  /* hover, focus */
+  --dur-3:   320ms;  /* state change */
+
+  /* ---------- Type scale (semantic) ---------- */
+  --t-display:  72px;   /* timer numerals only */
+  --t-h1:       40px;
+  --t-h2:       28px;
+  --t-h3:       20px;
+  --t-body:     16px;
+  --t-small:    13px;
+  --t-micro:    11px;
+
+  /* ---------- Line heights ---------- */
+  --lh-tight:  1.05;
+  --lh-snug:   1.25;
+  --lh-body:   1.55;
+
+  /* ---------- Letter spacing ---------- */
+  --tr-display:  -0.04em;
+  --tr-heading:  -0.02em;
+  --tr-mono-up:  0.06em;   /* labels, kbd hints — uppercase mono */
+}
+
+/* ============================================================
+   Semantic element styles. Apply via class or directly.
+   ============================================================ */
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.t-display {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--t-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-display);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.t-h1 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: var(--t-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-heading);
+}
+
+.t-h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: var(--t-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tr-heading);
+}
+
+.t-h3 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--t-h3);
+  line-height: var(--lh-snug);
+}
+
+.t-body {
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+}
+
+.t-prose {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.t-small {
+  font-family: var(--font-mono);
+  font-size: var(--t-small);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.t-label {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-mono-up);
+  color: var(--ink-3);
+}
+
+/* ---------- Keycap component, used everywhere ---------- */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Hairline rule ---------- */
+.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+.rule-soft {
+  border-top-color: var(--rule-soft);
+}

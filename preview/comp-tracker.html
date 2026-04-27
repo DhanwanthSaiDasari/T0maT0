@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Session Tracker</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 22px 32px; background: var(--paper); display: flex; flex-direction: column; gap: 14px; }
+  .label { font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+  .ticks { display: flex; gap: 8px; align-items: center; }
+  .tick { width: 18px; height: 18px; border: 1px solid var(--ink); }
+  .tick.done { background: var(--leaf); border-color: var(--leaf); }
+  .tick.now { border-width: 2px; border-color: var(--tomato); }
+  .row { display: flex; align-items: baseline; gap: 14px; }
+  .count { font-family: var(--font-mono); font-size: 28px; font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .of { font-family: var(--font-mono); font-size: 14px; color: var(--ink-3); }
+</style></head>
+<body>
+  <span class="label">today</span>
+  <div class="row">
+    <span class="count">3<span class="of"> / 8</span></span>
+    <div class="ticks" style="margin-left:auto;">
+      <div class="tick done"></div>
+      <div class="tick done"></div>
+      <div class="tick done"></div>
+      <div class="tick now"></div>
+      <div class="tick"></div>
+      <div class="tick"></div>
+      <div class="tick"></div>
+      <div class="tick"></div>
+    </div>
+  </div>
+</body></html>

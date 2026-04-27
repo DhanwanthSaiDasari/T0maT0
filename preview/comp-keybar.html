@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Keyboard Hint Bar</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 22px 32px; background: var(--paper); display: flex; flex-direction: column; gap: 14px; }
+  .bar { display: flex; gap: 22px; align-items: center; padding: 12px 18px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .pair { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); text-transform: lowercase; }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; }
+</style></head>
+<body>
+  <span class="label">fixed bottom hint bar — every action discoverable</span>
+  <div class="bar">
+    <span class="pair"><kbd class="kbd">SPACE</kbd> start / pause</span>
+    <span class="pair"><kbd class="kbd">ESC</kbd> stop</span>
+    <span class="pair"><kbd class="kbd">→</kbd> skip break</span>
+    <span class="pair"><kbd class="kbd">⌘K</kbd> command</span>
+    <span class="pair"><kbd class="kbd">?</kbd> all keys</span>
+  </div>
+</body></html>

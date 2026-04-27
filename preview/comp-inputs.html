@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 22px 32px; background: var(--paper); display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; align-items: start; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+  input { font-family: var(--font-mono); font-size: 14px; padding: 8px 10px; background: var(--paper); border: 1px solid var(--ink); border-radius: 2px; color: var(--ink); width: 100%; box-sizing: border-box; }
+  input:focus { outline: none; border-width: 2px; padding: 7px 9px; }
+  input.tomato { border-color: var(--tomato); border-width: 2px; padding: 7px 9px; }
+  .hint { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+</style></head>
+<body>
+  <div class="field">
+    <span class="lbl">task</span>
+    <input type="text" placeholder="what are you working on?">
+    <span class="hint">default · 1px ink</span>
+  </div>
+  <div class="field">
+    <span class="lbl">task</span>
+    <input type="text" value="finish design system" class="tomato">
+    <span class="hint">focused · 2px tomato</span>
+  </div>
+  <div class="field">
+    <span class="lbl">duration</span>
+    <input type="text" value="25:00" style="font-variant-numeric: tabular-nums; max-width:120px;">
+    <span class="hint">monospace numeric</span>
+  </div>
+  <div class="field">
+    <span class="lbl">command</span>
+    <input type="text" placeholder="⌘K — find or run">
+    <span class="hint">command bar style</span>
+  </div>
+</body></html>

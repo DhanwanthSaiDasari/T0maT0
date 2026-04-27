@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Status Chips</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 22px 32px; background: var(--paper); display: flex; flex-wrap: wrap; gap: 14px 18px; align-items: center; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--ink); font-family: var(--font-mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+  .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--ink); }
+  .running { color: var(--tomato); border-color: var(--tomato); }
+  .running .dot { background: var(--tomato); animation: pulse 1.2s var(--ease) infinite; }
+  .done { color: var(--leaf); border-color: var(--leaf); }
+  .done .dot { background: var(--leaf); }
+  .break { background: var(--char); color: var(--paper); border-color: var(--char); }
+  .break .dot { background: var(--paper); }
+  .idle { color: var(--ink-3); border-color: var(--rule-soft); }
+  .idle .dot { background: var(--ink-3); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+  .label { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; width: 100%; margin-top: 4px; }
+</style></head>
+<body>
+  <span class="chip idle"><span class="dot"></span>idle</span>
+  <span class="chip running"><span class="dot"></span>focus · 18:42</span>
+  <span class="chip break"><span class="dot"></span>break · 04:12</span>
+  <span class="chip done"><span class="dot"></span>done</span>
+  <span class="label">the only place pill-radius is allowed</span>
+</body></html>
