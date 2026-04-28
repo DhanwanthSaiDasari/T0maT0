@@ -2,10 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0; url=ui_kits/marketing/index.html">
-  <title>tomato</title>
+  <title>tomato — a pomodoro timer</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="colors_and_type.css">
+  <style>
+    body { margin: 0; background: var(--paper); }
+
+    /* Topbar */
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 32px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .wm { font-family: var(--font-mono); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: var(--ink); display: inline-flex; align-items: baseline; gap: 3px; }
+    .wm .sq { display: inline-block; width: 5px; height: 5px; background: var(--tomato); margin-bottom: 1px; }
+    .nav-links { display: flex; gap: 24px; font-family: var(--font-mono); font-size: 12px; }
+    .nav-links a { color: var(--ink-2); text-decoration: none; }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* Hero */
+    .hero {
+      padding: 80px 32px 96px;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow { margin-bottom: 24px; }
+    .hero-num {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: clamp(120px, 18vw, 240px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .hero-headline {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: clamp(36px, 5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin: 0 0 40px 0;
+      max-width: 720px;
+    }
+    .hero-cta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .btn-primary {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 18px;
+      background: var(--ink);
+      color: var(--paper);
+      border: 1px solid var(--ink);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: lowercase;
+    }
+    .btn-primary:hover { background: #000; }
+    .kbd.dark { background: var(--ink-2); color: var(--paper); border-color: #000; }
+    .hero-meta { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+
+    /* Pitch */
+    .pitch {
+      padding: 80px 32px;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .pitch-row { display: flex; flex-direction: column; gap: 12px; }
+    .pitch-body {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--ink-2);
+      margin: 0;
+      text-wrap: pretty;
+    }
+    @media (max-width: 800px) {
+      .pitch { grid-template-columns: 1fr; gap: 32px; }
+    }
+
+    /* Keys section */
+    .keys-section {
+      padding: 80px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .keys-headline {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: clamp(32px, 4vw, 44px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 48px 0;
+      max-width: 600px;
+    }
+    .keys-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+    .keys-col { display: flex; flex-direction: column; gap: 14px; }
+    .keys-col .t-label { margin-bottom: 4px; }
+    .keys-row { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 13px; }
+    .keys-keys { display: flex; gap: 4px; min-width: 64px; }
+    .keys-label { color: var(--ink-2); }
+    @media (max-width: 800px) {
+      .keys-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+
+    /* Footer */
+    footer {
+      padding: 32px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 </head>
 <body>
-  <a href="ui_kits/marketing/index.html">tomato</a>
+  <div id="root"></div>
+
+  <script type="text/babel" src="ui_kits/marketing/Hero.jsx"></script>
+  <script type="text/babel" src="ui_kits/marketing/Pitch.jsx"></script>
+  <script type="text/babel" src="ui_kits/marketing/Keys.jsx"></script>
+
+  <script type="text/babel">
+    function Site() {
+      return (
+        <>
+          <header className="nav">
+            <span className="wm">tomato<span className="sq"/></span>
+            <nav className="nav-links">
+              <a href="#keys">keys</a>
+              <a href="app/">open</a>
+            </nav>
+          </header>
+          <Hero />
+          <Pitch />
+          <div id="keys"><Keys /></div>
+          <footer>
+            <span className="wm" style={{fontSize:'14px'}}>tomato<span className="sq"/></span>
+            <span>no cookies. no analytics. no kidding.</span>
+          </footer>
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Site />);
+  </script>
 </body>
 </html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>tomato</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: var(--paper);
+    }
+    body.mode-break { background: var(--char); color: var(--paper); }
+    body.mode-break .timer-num { color: var(--paper); }
+    body.mode-break .topbar, body.mode-break .keybar, body.mode-break .tracker { border-color: var(--dark-rule); }
+    body.mode-break .t-label, body.mode-break .kb-label, body.mode-break .tracker-of { color: var(--dark-fg-3); }
+    body.mode-break .kbd { background: var(--char); color: var(--paper); border-color: var(--dark-fg-3); }
+    body.mode-break .tracker-count { color: var(--paper); }
+
+    /* Topbar ------------------------------------------------ */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .wm { font-family: var(--font-mono); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: inherit; display: inline-flex; align-items: baseline; gap: 3px; }
+    .wm .sq { display: inline-block; width: 5px; height: 5px; background: var(--tomato); margin-bottom: 1px; }
+
+    /* Main area --------------------------------------------- */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      gap: 32px;
+    }
+    .timer-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .timer-num {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 200px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+    }
+    .timer-num.running { color: var(--tomato); }
+    .timer-task {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+      color: var(--ink-2);
+    }
+    body.mode-break .timer-task { color: var(--dark-fg-2); }
+
+    /* Status chip ------------------------------------------- */
+    .chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px; border: 1px solid currentColor; font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+    .chip .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+    .chip.idle  { color: var(--ink-3); }
+    .chip.focus { color: var(--tomato); }
+    .chip.focus .dot { animation: pulse 1.2s var(--ease) infinite; }
+    .chip.break { color: var(--paper); background: transparent; border-color: var(--paper); }
+    .chip.done  { color: var(--leaf); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+    /* Task field -------------------------------------------- */
+    .task-field { display: flex; flex-direction: column; gap: 6px; width: 360px; max-width: 80vw; }
+    .task-field input {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      padding: 8px 10px;
+      background: transparent;
+      border: 1px solid var(--rule-soft);
+      border-radius: 2px;
+      color: var(--ink);
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    body.mode-break .task-field input { color: var(--paper); border-color: var(--dark-rule); }
+    .task-field input:focus { outline: none; border-color: var(--ink); border-width: 2px; padding: 7px 9px; }
+    body.mode-break .task-field input:focus { border-color: var(--paper); }
+
+    /* Tracker ----------------------------------------------- */
+    .tracker { display: flex; flex-direction: column; gap: 10px; padding: 16px 20px; border: 1px solid var(--rule); min-width: 260px; }
+    .tracker-head { display: flex; justify-content: space-between; align-items: baseline; }
+    .tracker-count { font-family: var(--font-mono); font-size: 22px; font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .tracker-of { font-size: 13px; color: var(--ink-3); }
+    .ticks { display: flex; gap: 6px; }
+    .tick { width: 16px; height: 16px; border: 1px solid var(--ink); }
+    .tick.done { background: var(--leaf); border-color: var(--leaf); }
+    .tick.now { border-width: 2px; border-color: var(--tomato); }
+    body.mode-break .tick { border-color: var(--paper); }
+    body.mode-break .tick.done { background: var(--leaf); border-color: var(--leaf); }
+
+    /* Keybar ------------------------------------------------ */
+    .keybar {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-top: 1px solid var(--rule);
+      flex-wrap: wrap;
+    }
+    .kb-pair { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); text-transform: lowercase; }
+    body.mode-break .kb-pair { color: var(--dark-fg-2); }
+    .kb-label { color: inherit; }
+
+    /* Overlay shared --------------------------------------- */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(26, 23, 20, 0.45);
+      display: flex; align-items: flex-start; justify-content: center;
+      padding-top: 14vh;
+      z-index: 100;
+    }
+    .palette { width: 100%; max-width: 520px; background: var(--paper); border: 1px solid var(--ink); color: var(--ink); }
+    .palette-input { padding: 12px 16px; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 10px; }
+    .palette-input .caret { color: var(--tomato); font-family: var(--font-mono); font-size: 18px; }
+    .palette-input input { flex: 1; border: 0; background: transparent; outline: none; font-family: var(--font-mono); font-size: 14px; color: var(--ink); }
+    .palette-list { max-height: 320px; overflow: auto; }
+    .palette-item { padding: 10px 16px; display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 13px; cursor: pointer; }
+    .palette-item.sel { background: var(--paper-2); }
+    .palette-name { flex: 1; }
+    .palette-keys { display: flex; gap: 4px; }
+    .palette-empty { padding: 16px; font-family: var(--font-mono); font-size: 13px; color: var(--ink-3); }
+
+    .help { width: 100%; max-width: 640px; background: var(--paper); border: 1px solid var(--ink); color: var(--ink); padding: 24px 28px; }
+    .help-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--rule-soft); }
+    .help-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+    .help-col { display: flex; flex-direction: column; gap: 10px; }
+    .help-col .t-label { margin-bottom: 4px; }
+    .help-row { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 12px; }
+    .help-keys { display: flex; gap: 4px; min-width: 60px; }
+    .help-label { color: var(--ink-2); }
+
+    /* Toast ------------------------------------------------- */
+    .toast {
+      position: fixed; left: 50%; top: 24px; transform: translateX(-50%);
+      background: var(--ink); color: var(--paper);
+      font-family: var(--font-mono); font-size: 12px;
+      padding: 8px 14px;
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--ink);
+      animation: toast-in 160ms var(--ease);
+      z-index: 200;
+    }
+    .toast .dot { width: 6px; height: 6px; background: var(--leaf); border-radius: 999px; }
+    @keyframes toast-in { from { opacity: 0; transform: translate(-50%, -8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="../ui_kits/app/Timer.jsx"></script>
+  <script type="text/babel" src="../ui_kits/app/KeyBar.jsx"></script>
+  <script type="text/babel" src="../ui_kits/app/SessionTracker.jsx"></script>
+  <script type="text/babel" src="../ui_kits/app/CommandPalette.jsx"></script>
+  <script type="text/babel" src="../ui_kits/app/HelpOverlay.jsx"></script>
+  <script type="text/babel" src="../ui_kits/app/TaskField.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const DURATIONS = { 1: 25*60, 2: 50*60, 3: 90*60 };
+    const BREAK = 5*60;
+    const LONG_BREAK = 15*60;
+
+    function App() {
+      const [mode, setMode] = useState('idle');     // idle | focus | break | done
+      const [total, setTotal] = useState(25*60);
+      const [remaining, setRemaining] = useState(25*60);
+      const [task, setTask] = useState('finish design system');
+      const [done, setDone] = useState(3);
+      const [paletteOpen, setPaletteOpen] = useState(false);
+      const [helpOpen, setHelpOpen] = useState(false);
+      const [toast, setToast] = useState(null);
+      const tickRef = useRef(null);
+
+      useEffect(() => {
+        document.body.className = mode === 'break' ? 'mode-break' : '';
+      }, [mode]);
+
+      // Tick
+      useEffect(() => {
+        if (mode !== 'focus' && mode !== 'break') return;
+        tickRef.current = setInterval(() => {
+          setRemaining(r => {
+            if (r <= 1) {
+              clearInterval(tickRef.current);
+              if (mode === 'focus') {
+                setDone(d => d + 1);
+                setToast({ msg: 'pomodoro complete · break time' });
+                setTimeout(() => setToast(null), 2400);
+                setMode('break');
+                setTotal(BREAK);
+                return BREAK;
+              } else {
+                setMode('idle');
+                setTotal(25*60);
+                return 25*60;
+              }
+            }
+            return r - 1;
+          });
+        }, 1000);
+        return () => clearInterval(tickRef.current);
+      }, [mode]);
+
+      const startFocus = (mins) => {
+        const t = mins * 60;
+        setTotal(t);
+        setRemaining(t);
+        setMode('focus');
+      };
+      const startLongBreak = () => {
+        setTotal(LONG_BREAK);
+        setRemaining(LONG_BREAK);
+        setMode('break');
+      };
+      const togglePause = () => {
+        if (mode === 'idle') startFocus(25);
+        else if (mode === 'focus' || mode === 'break') {
+          if (tickRef.current) {
+            clearInterval(tickRef.current);
+            tickRef.current = null;
+            setMode(m => m === 'focus' ? 'paused-focus' : 'paused-break');
+          }
+        } else if (mode === 'paused-focus') setMode('focus');
+        else if (mode === 'paused-break') setMode('break');
+      };
+      const stop = () => {
+        clearInterval(tickRef.current);
+        setMode('idle');
+        setTotal(25*60);
+        setRemaining(25*60);
+      };
+      const skip = () => {
+        if (mode === 'break' || mode === 'paused-break') {
+          clearInterval(tickRef.current);
+          setMode('idle');
+          setTotal(25*60);
+          setRemaining(25*60);
+        }
+      };
+
+      const onCommand = (id) => {
+        if (id === 'start') startFocus(25);
+        else if (id === 'start50') startFocus(50);
+        else if (id === 'start90') startFocus(90);
+        else if (id === 'long') startLongBreak();
+        else if (id === 'stop') stop();
+        else if (id === 'skip') skip();
+        else if (id === 'reset') setDone(0);
+      };
+
+      useEffect(() => {
+        const onKey = (e) => {
+          const tag = (e.target.tagName || '').toLowerCase();
+
+          if (e.key === 'Escape') {
+            e.preventDefault();
+            if (helpOpen) { setHelpOpen(false); return; }
+            if (paletteOpen) { setPaletteOpen(false); return; }
+            stop();
+            return;
+          }
+
+          if (tag === 'input') return;
+          if (paletteOpen || helpOpen) return;
+
+          if (e.key === ' ') { e.preventDefault(); togglePause(); }
+          else if (e.key === 'ArrowRight') { e.preventDefault(); skip(); }
+          else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setPaletteOpen(true); }
+          else if (e.key === '?') { e.preventDefault(); setHelpOpen(true); }
+          else if (e.shiftKey && e.key.toLowerCase() === 'b') { e.preventDefault(); startLongBreak(); }
+          else if (e.key === '1') { e.preventDefault(); startFocus(25); }
+          else if (e.key === '2') { e.preventDefault(); startFocus(50); }
+          else if (e.key === '3') { e.preventDefault(); startFocus(90); }
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, [mode, paletteOpen, helpOpen]);
+
+      const renderMode = mode.startsWith('paused-') ? mode.replace('paused-','') : mode;
+
+      return (
+        <>
+          <header className="topbar">
+            <div className="wm">tomato<span className="sq"/></div>
+            <SessionTracker done={done} goal={8} current={mode === 'focus'} />
+          </header>
+
+          <main>
+            <Timer mode={renderMode} remaining={remaining} total={total} task={mode === 'idle' ? '' : task} />
+            {mode === 'idle' && (
+              <TaskField value={task} onChange={setTask} />
+            )}
+          </main>
+
+          <KeyBar mode={renderMode} />
+
+          <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onCommand={onCommand} />
+          <HelpOverlay open={helpOpen} onClose={() => setHelpOpen(false)} />
+
+          {toast && (
+            <div className="toast"><span className="dot"/>{toast.msg}</div>
+          )}
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
