@@ -140,6 +140,15 @@
 <body>
   <div id="root"></div>
 
+  <script>
+    document.addEventListener('keydown', function(e) {
+      if (e.key === ' ' && e.target.tagName.toLowerCase() !== 'input') {
+        e.preventDefault();
+        window.location.href = '/app';
+      }
+    });
+  </script>
+
   <script type="text/babel" src="ui_kits/marketing/Hero.jsx"></script>
   <script type="text/babel" src="ui_kits/marketing/Pitch.jsx"></script>
   <script type="text/babel" src="ui_kits/marketing/Keys.jsx"></script>
